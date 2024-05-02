@@ -1,5 +1,6 @@
 package com.jaz2.figurines.Figurine;
 
+import com.jaz2.figurines.Owner.Owner;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,6 @@ public class FigurineResponse {
     private String description;
     private String model;
     private String series;
-    private UUID idOwner;
     private Double buyPrice;
+    private Owner idOwner;
 }

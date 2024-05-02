@@ -1,5 +1,6 @@
 package com.jaz2.figurines.Owner;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,67 +13,37 @@ import java.util.stream.Collectors;
 public class OwnerService {
 
     private final OwnerRepository repository;
+    private final OwnerMapper mapper;
 
-    public OwnerResponse addOwner(OwnerCreateRequest request){
-        Owner newOwner = new Owner();
-        newOwner.setName(request.getName());
-        newOwner.setSurname(request.getSurname());
-        newOwner.setEmail(request.getEmail());
-        newOwner.setAddress(request.getAddress());
-        newOwner.setPhone(request.getPhone());
+    public OwnerResponse addOwner(OwnerCreateRequest request) {
 
-        Owner saved = repository.save(newOwner);
+        Owner owner = mapper.toEntity(request);
+        Owner saved = repository.save(owner);
 
-        OwnerResponse response = new OwnerResponse();
-        response.setId(saved.getId());
-        response.setName(saved.getName());
-        response.setSurname(saved.getSurname());
-        response.setEmail(saved.getEmail());
-        response.setAddress(saved.getAddress());
-        response.setPhone(saved.getPhone());
-
-        return response;
+        return mapper.toResponse(saved);
     }
 
     public List<OwnerResponse> getAllOwners() {
         return repository
                 .findAll()
                 .stream()
-                .map(o -> new OwnerResponse(o.getId(), o.getName(), o.getSurname(), o.getEmail(), o.getAddress(), o.getPhone()))
+                .map(mapper::toResponse)
                 .collect(Collectors.toList());
     }
 
     public OwnerResponse getOwner(UUID id) {
         Owner saved = repository.getReferenceById(id);
 
-        OwnerResponse response = new OwnerResponse();
-        response.setId(saved.getId());
-        response.setName(saved.getName());
-        response.setSurname(saved.getSurname());
-        response.setEmail(saved.getEmail());
-        response.setAddress(saved.getAddress());
-        response.setPhone(saved.getPhone());
-
-        return response;
+        return mapper.toResponse(saved);
     }
 
     public OwnerResponse updateOwner(UUID id, OwnerUpdateRequest request) {
         Owner owner = repository.getReferenceById(id);
-        owner.setName(request.getName());
-        owner.setSurname(request.getSurname());
-        owner.setEmail(request.getEmail());
-        owner.setAddress(request.getAddress());
-        owner.setPhone(request.getPhone());
+        Owner updated = mapper.toUpdate(owner, request);
 
-        OwnerResponse response = new OwnerResponse();
-        response.setId(owner.getId());
-        response.setName(owner.getName());
-        response.setSurname(owner.getSurname());
-        response.setEmail(owner.getEmail());
-        response.setAddress(owner.getAddress());
-        response.setPhone(owner.getPhone());
+        Owner saved = repository.save(updated);
 
-        return response;
+        return mapper.toResponse(saved);
     }
 
     public void deleteOwner(UUID id) {

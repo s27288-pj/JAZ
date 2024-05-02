@@ -1,7 +1,9 @@
 package com.jaz2.figurines.Figurine;
 
+import com.jaz2.figurines.Owner.Owner;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -21,5 +23,6 @@ public class Figurine {
     private String model;
     private String series;
     private Double buyPrice;
-    private UUID idOwner;
+    @ManyToOne
+    private Owner idOwner;
 }

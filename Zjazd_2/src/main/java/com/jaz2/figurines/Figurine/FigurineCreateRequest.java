@@ -1,5 +1,6 @@
 package com.jaz2.figurines.Figurine;
 
+import com.jaz2.figurines.Owner.Owner;
 import lombok.*;
 
 import java.util.UUID;
@@ -13,6 +14,6 @@ public class FigurineCreateRequest {
     private String description;
     private String model;
     private String series;
-    private UUID idOwner;
+    private Owner idOwner;
     private Double buyPrice;
 }
