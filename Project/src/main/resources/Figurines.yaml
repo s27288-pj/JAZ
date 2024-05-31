@@ -1,0 +1,304 @@
+openapi: 3.0.2
+info:
+  title: Figurines API
+  version: v1.0.0
+servers:
+  - url: http://localhost:8080
+    description: local server
+
+tags:
+  - name: owners
+    description: Owner operations
+  - name: figurine
+    description: Figurine operations
+
+paths:
+  /owners:
+    get:
+      description: Get all owners
+      tags:
+        - owners
+      operationId: getAllOwners
+      responses:
+        "200":
+          description: Array of owners
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OwnerReceive"
+    post:
+      description: Create a new owner
+      tags:
+        - owners
+      operationId: createOwner
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/OwnerCreate"
+        required: true
+      responses:
+        "200":
+          description: Owner created
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/OwnerReceive"
+  /owners/{id}:
+    parameters:
+      - $ref: "#/components/parameters/ownerId"
+    get:
+      description: Get owner by id
+      tags:
+        - owners
+      operationId: getOwner
+      responses:
+        "200":
+          description: Owner found
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/OwnerReceive"
+    put:
+      description: Update owner by id
+      tags:
+        - owners
+      operationId: updateOwner
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/OwnerUpdate"
+        required: true
+      responses:
+        "200":
+          description: Owner updated
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/OwnerReceive"
+    delete:
+      description: Delete owner by id
+      tags:
+        - owners
+      operationId: deleteOwner
+      responses:
+        "200":
+          description: Owner deleted
+  /figurines:
+    get:
+      description: Get all figurines
+      tags:
+        - figurine
+      operationId: getFigurines
+      responses:
+        "200":
+          description: Array of figurines
+          content:
+            "application/json":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FigurineReceive"
+    post:
+      description: Create a new figurine
+      tags:
+        - figurine
+      operationId: createFigurine
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/FigurineCreate"
+        required: true
+      responses:
+        "200":
+          description: Figurine created
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/FigurineReceive"
+  /figurines/{id}:
+    parameters:
+      - $ref: "#/components/parameters/figurineId"
+    get:
+      description: Get figurine by id
+      tags:
+        - figurine
+      operationId: getFigurine
+      responses:
+        "200":
+          description: Figurine found
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/FigurineReceive"
+    put:
+      description: Update figurine by id
+      tags:
+        - figurine
+      operationId: updateFigurine
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/FigurineUpdate"
+        required: true
+      responses:
+        "200":
+          description: Figurine updated
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/FigurineReceive"
+    delete:
+      description: Delete figurine by id
+      tags:
+        - figurine
+      operationId: deleteFigurine
+      responses:
+        "200":
+          description: Figurine deleted
+
+components:
+  parameters:
+    ownerId:
+      name: id
+      in: path
+      description: ID of the owner
+      required: true
+      schema:
+        $ref: "#/components/schemas/UUID"
+    figurineId:
+      name: id
+      in: path
+      description: ID of the figurine
+      required: true
+      schema:
+        $ref: "#/components/schemas/UUID"
+  schemas:
+    UUID:
+      type: string
+      format: uuid
+      example: "123e4567-e89b-12d3-a456-426614174000"
+    OwnerReceive:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        name:
+          type: string
+        surname:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+      required:
+        - id
+        - name
+        - surname
+        - email
+        - address
+        - phone
+    OwnerCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+      required:
+        - name
+        - surname
+        - email
+        - address
+        - phone
+    OwnerUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+    FigurineReceive:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        name:
+          type: string
+        description:
+          type: string
+        model:
+          type: string
+        series:
+          type: string
+        buyPrice:
+          type: number
+          format: double
+        owner:
+          $ref: "#/components/schemas/OwnerReceive"
+      required:
+        - id
+        - name
+        - description
+        - model
+        - series
+        - buyPrice
+        - owner
+    FigurineCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        model:
+          type: string
+        series:
+          type: string
+        buyPrice:
+          type: number
+          format: double
+        owner:
+          $ref: "#/components/schemas/UUID"
+      required:
+        - name
+        - description
+        - model
+        - series
+        - buyPrice
+        - owner
+    FigurineUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        model:
+          type: string
+        series:
+          type: string
+        buyPrice:
+          type: number
+          format: double
+        owner:
+          $ref: "#/components/schemas/UUID"

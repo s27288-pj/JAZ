@@ -1,39 +1,48 @@
 package com.jaz2.figurines.Owner;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+import com.baeldung.openapi.api.OwnersApi;
+import com.baeldung.openapi.model.OwnerCreate;
+import com.baeldung.openapi.model.OwnerReceive;
+import com.baeldung.openapi.model.OwnerUpdate;
+
 @RestController
+@RequestMapping("/owners")
 @RequiredArgsConstructor
 public class OwnerController {
 
     private final OwnerService service;
 
-    @PostMapping("/addOwner")
-    public OwnerResponse createOwner(@RequestBody OwnerCreateRequest request){
-        return service.addOwner(request);
+    @GetMapping
+    public ResponseEntity<List<OwnerReceive>> getAllOwners() {
+        return ResponseEntity.ok(service.getAllOwners());
     }
 
-    @GetMapping("/getOwners")
-    public List<OwnerResponse> getOwners(){
-        return service.getAllOwners();
+    @GetMapping("/{id}")
+    public ResponseEntity<OwnerReceive> getOwnerById(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.getOwnerById(id));
     }
 
-    @GetMapping("/getOwner/{id}")
-    public OwnerResponse getOwner(@PathVariable UUID id){
-        return service.getOwner(id);
+    @PostMapping
+    public ResponseEntity<OwnerReceive> createOwner(@RequestBody OwnerCreate owner) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createOwner(owner));
     }
 
-    @PutMapping("/updateOwner/{id}")
-    public OwnerResponse updateOwner(@PathVariable UUID id, @RequestBody OwnerUpdateRequest request){
-        return service.updateOwner(id, request);
+    @PutMapping("/{id}")
+    public ResponseEntity<OwnerReceive> updateOwner(@PathVariable UUID id, @RequestBody OwnerUpdate owner) {
+        return ResponseEntity.ok(service.updateOwner(id, owner));
     }
 
-    @DeleteMapping("/deleteOwner/{id}")
-    public void deleteOwner(@PathVariable UUID id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOwner(@PathVariable UUID id) {
         service.deleteOwner(id);
+        return ResponseEntity.noContent().build();
     }
 }
