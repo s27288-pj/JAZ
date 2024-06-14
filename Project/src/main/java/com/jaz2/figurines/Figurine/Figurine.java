@@ -23,6 +23,7 @@ public class Figurine {
     private String model;
     private String series;
     private Double buyPrice;
+    private String comment;
     @ManyToOne
     private Owner idOwner;
 }

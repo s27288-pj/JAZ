@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-import com.baeldung.openapi.api.FigurineApi;
 import com.baeldung.openapi.model.FigurineCreate;
 import com.baeldung.openapi.model.FigurineReceive;
 import com.baeldung.openapi.model.FigurineUpdate;
@@ -44,5 +43,9 @@ public class FigurineController {
     public ResponseEntity<Void> deleteFigurine(@PathVariable UUID id) {
         service.deleteFigurine(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/info/{id}")
+    public ResponseEntity<Figurine> getFigurineWithInfo(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.getFigurineWithInfo(id));
     }
 }

@@ -161,6 +161,21 @@ paths:
       responses:
         "200":
           description: Figurine deleted
+  /figurines/info/{id}:
+    parameters:
+      - $ref: "#/components/parameters/figurineId"
+    get:
+      description: Get figurine info by id
+      tags:
+        - figurine
+      operationId: getFigurineWithInfo
+      responses:
+        "200":
+          description: Figurine info found
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/FigurineInfoReceive"
 
 components:
   parameters:
@@ -253,7 +268,7 @@ components:
         buyPrice:
           type: number
           format: double
-        owner:
+        idOwner:
           $ref: "#/components/schemas/OwnerReceive"
       required:
         - id
@@ -262,7 +277,7 @@ components:
         - model
         - series
         - buyPrice
-        - owner
+        - idOwner
     FigurineCreate:
       type: object
       properties:
@@ -277,15 +292,15 @@ components:
         buyPrice:
           type: number
           format: double
-        owner:
-          $ref: "#/components/schemas/UUID"
+        idOwner:
+          $ref: "#/components/schemas/OwnerReceive"
       required:
         - name
         - description
         - model
         - series
         - buyPrice
-        - owner
+        - idOwner
     FigurineUpdate:
       type: object
       properties:
@@ -300,5 +315,12 @@ components:
         buyPrice:
           type: number
           format: double
-        owner:
+        idOwner:
+          $ref: "#/components/schemas/OwnerReceive"
+    FigurineInfoReceive:
+      type: object
+      properties:
+        id:
           $ref: "#/components/schemas/UUID"
+        comment:
+          type: string

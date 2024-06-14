@@ -3,7 +3,7 @@ INSERT INTO Owner (id, name, surname, email, address, phone) VALUES (UUID(), 'Jo
 INSERT INTO Owner (id, name, surname, email, address, phone) VALUES (UUID(), 'Jane', 'Doe', 'jane.doe@example.com', '456 Main St', '555-5678');
 INSERT INTO Owner (id, name, surname, email, address, phone) VALUES (UUID(), 'Alice', 'Smith', 'alice.smith@example.com', '789 Main St', '555-9012');
 
-    -- Insert figurines
+-- Insert figurines
 INSERT INTO Figurine (id, name, description, model, series, buy_Price, id_owner_id) VALUES (UUID(), 'Figurine 1', 'Description of Figurine 1', 'Model 1', 'Series A', 20.00, (SELECT id FROM Owner WHERE email = 'john.doe@example.com'));
 INSERT INTO Figurine (id, name, description, model, series, buy_Price, id_owner_id) VALUES (UUID(), 'Figurine 2', 'Description of Figurine 2', 'Model 2', 'Series B', 25.00, (SELECT id FROM Owner WHERE email = 'john.doe@example.com'));
 INSERT INTO Figurine (id, name, description, model, series, buy_Price, id_owner_id) VALUES (UUID(), 'Figurine 3', 'Description of Figurine 3', 'Model 3', 'Series C', 30.00, (SELECT id FROM Owner WHERE email = 'john.doe@example.com'));

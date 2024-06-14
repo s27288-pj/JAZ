@@ -2,14 +2,19 @@ package com.jaz2.figurines.Figurine;
 
 import com.jaz2.figurines.Exceptions.FigurineNotFoundException;
 import com.jaz2.figurines.Exceptions.BadFigurineFieldsException;
+import com.jaz2.figurines.client.FigurineInfo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.jaz2.figurines.client.FigurineInfoClient;
 
 import com.baeldung.openapi.model.FigurineCreate;
 import com.baeldung.openapi.model.FigurineReceive;
@@ -21,6 +26,9 @@ public class FigurineService {
 
     private final FigurineRepository repository;
     private final FigurineMapper mapper;
+
+    @Autowired
+    private FigurineInfoClient figurineInfoClient;
 
     public List<FigurineReceive> getAllFigurines() {
         return repository.findAll().stream().map(mapper::toFigurineReceive).collect(Collectors.toList());
@@ -77,7 +85,7 @@ public class FigurineService {
         if (figurineCreate.getBuyPrice() == null || figurineCreate.getBuyPrice() <= 0) {
             throw new BadFigurineFieldsException("Figurine price is required");
         }
-        if (figurineCreate.getOwner() == null) {
+        if (figurineCreate.getIdOwner() == null) {
             throw new BadFigurineFieldsException("Figurine owner is required");
         }
     }
@@ -99,8 +107,20 @@ public class FigurineService {
         if (figurineUpdate.getBuyPrice() == null || figurineUpdate.getBuyPrice() <= 0) {
             throw new BadFigurineFieldsException("Figurine price is required");
         }
-        if (figurineUpdate.getOwner() == null) {
+        if (figurineUpdate.getIdOwner() == null) {
             throw new BadFigurineFieldsException("Figurine owner is required");
+        }
+    }
+
+    public Figurine getFigurineWithInfo(UUID id) {
+        Optional<Figurine> figurineOpt = repository.findById(id);
+        if (figurineOpt.isPresent()) {
+            Figurine figurine = figurineOpt.get();
+            FigurineInfo figurineInfo = figurineInfoClient.getFigurineInfo(id);
+            figurine.setComment(figurineInfo.getComment());
+            return figurine;
+        } else {
+            throw new FigurineNotFoundException("Figurine not found with id: " + id);
         }
     }
 }
