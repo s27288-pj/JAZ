@@ -3,8 +3,10 @@ package com.jaz2.figurines.Owner;
 import com.jaz2.figurines.Exceptions.OwnerNotFoundException;
 import com.jaz2.figurines.Exceptions.BadOwnerFieldsException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

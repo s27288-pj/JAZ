@@ -1,3 +1,8 @@
+-- Insert Dictionary
+INSERT INTO Dictionary_Entity (id, VALUE_NAME, DICTIONARY_NAME) VALUES (UUID(), 'John', 'Name');
+INSERT INTO Dictionary_Entity (id, VALUE_NAME, DICTIONARY_NAME) VALUES (UUID(), 'Jane', 'Name');
+INSERT INTO Dictionary_Entity (id, VALUE_NAME, DICTIONARY_NAME) VALUES (UUID(), 'Alice', 'Name');
+
 -- Insert owner
 INSERT INTO Owner (id, name, surname, email, address, phone) VALUES (UUID(), 'John', 'Doe', 'john.doe@example.com', '123 Main St', '555-1234');
 INSERT INTO Owner (id, name, surname, email, address, phone) VALUES (UUID(), 'Jane', 'Doe', 'jane.doe@example.com', '456 Main St', '555-5678');

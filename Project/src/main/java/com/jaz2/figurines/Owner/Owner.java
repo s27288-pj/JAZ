@@ -1,5 +1,6 @@
 package com.jaz2.figurines.Owner;
 
+import com.jaz2.figurines.Dictionary.Dictionary;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
@@ -13,6 +14,7 @@ public class Owner {
     @Id
     @UuidGenerator
     private UUID id;
+    @Dictionary("Name")
     private String name;
     private String surname;
     private String email;
